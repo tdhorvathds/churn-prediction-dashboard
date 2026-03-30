@@ -1,6 +1,6 @@
 import pandas as pd
 from sqlalchemy import create_engine
-from config import DB_URL
+from src.config import DB_URL
 
 
 def get_engine():

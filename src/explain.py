@@ -3,10 +3,10 @@ import pandas as pd
 from scipy import sparse
 import matplotlib.pyplot as plt
 
-from config import EXPLAIN_DIR
-from data_loader import load_model_features
-from preprocessing import FEATURE_COLS
-from utils import load_pipeline
+from src.config import EXPLAIN_DIR
+from src.data_loader import load_model_features
+from src.preprocessing import FEATURE_COLS
+from src.utils import load_pipeline
 
 def load_explain_data() -> pd.DataFrame:
     df = load_model_features()

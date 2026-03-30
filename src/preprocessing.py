@@ -3,7 +3,7 @@ from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn.compose import ColumnTransformer
 
-from data_loader import load_model_features
+from src.data_loader import load_model_features
 
 NUM_COLS = [
     "senior_citizen",

@@ -5,8 +5,8 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import precision_score, recall_score, roc_auc_score, classification_report, confusion_matrix
 from xgboost import XGBClassifier
 
-from config import MODEL_DIR
-from preprocessing import load_training_data, create_preprocessor
+from src.config import MODEL_DIR
+from src.preprocessing import load_training_data, create_preprocessor
 
 MODEL_PATH = MODEL_DIR / "churn_pipeline.pkl"
 

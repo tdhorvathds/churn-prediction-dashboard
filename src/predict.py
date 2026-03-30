@@ -1,9 +1,9 @@
 import pandas as pd
 
-from config import MODEL_DIR, PREDICTIONS_DIR
-from data_loader import load_model_features, get_engine
-from preprocessing import FEATURE_COLS
-from utils import load_pipeline
+from src.config import MODEL_DIR, PREDICTIONS_DIR
+from src.data_loader import load_model_features, get_engine
+from src.preprocessing import FEATURE_COLS
+from src.utils import load_pipeline
 
 TIMESTAMP = pd.Timestamp.now().strftime("%Y%m%d_%H%M%S")
 
@@ -40,6 +40,27 @@ def generate_predictions(df: pd.DataFrame) -> pd.DataFrame:
             "model_name",
         ]
     ].copy()
+
+def predict_single(customer_data: dict) -> dict:
+    pipeline = load_pipeline()
+
+    input_df = pd.DataFrame([customer_data])
+    X = input_df[FEATURE_COLS].copy()
+
+    churn_probability = float(pipeline.predict_proba(X)[0, 1])
+    risk = risk_segment(churn_probability)
+
+    result = {
+        "customer_id": customer_data.get("customer_id"),
+        "churn_probability": churn_probability,
+        "risk_segment": risk,
+        "estimated_revenue_at_risk": float(
+            customer_data["monthly_charges"] * churn_probability
+        ),
+        "model_name": "XGBoost",
+    }
+
+    return result
 
 
 def save_predictions_to_sql(predictions: pd.DataFrame, table_name: str = "predictions") -> None:

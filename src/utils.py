@@ -1,6 +1,6 @@
 import joblib
 
-from config import MODEL_DIR
+from src.config import MODEL_DIR
 
 MODEL_PATH = MODEL_DIR / "churn_pipeline.pkl"
 
