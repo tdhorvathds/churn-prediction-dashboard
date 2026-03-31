@@ -43,6 +43,32 @@ def prepare_transformed_features(df: pd.DataFrame):
     return X, X_transformed_df, preprocessor, model
 
 
+def clean_feature_name(feature_name: str) -> str:
+    if feature_name.startswith("num__"):
+        return feature_name.replace("num__", "")
+
+    if feature_name.startswith("cat__"):
+        cleaned = feature_name.replace("cat__", "")
+
+        categorical_prefixes = [
+            "gender",
+            "city",
+            "contract_type",
+            "payment_method"
+        ]
+
+        for prefix in categorical_prefixes:
+            prefix_with_sep = f"{prefix}_"
+
+            if cleaned.startswith(prefix_with_sep):
+                value = cleaned.replace(prefix_with_sep, "")
+                return f"{prefix} = {value}"
+
+        return cleaned
+
+    return feature_name
+
+
 def build_explainer(background_df: pd.DataFrame = None):
     df = load_explain_data()
     X, X_transformed_df, _, model = prepare_transformed_features(df)
@@ -64,31 +90,6 @@ def get_shap_values():
     shap_values = explainer.shap_values(X_transformed_df)
 
     return shap_values, X_transformed_df, X_raw
-
-
-def explain_single_customer_summary(customer_id: str, top_n: int = 5) -> dict:
-    explanation_df, _, churn_probability = explain_single_customer(customer_id)
-
-    positive_drivers = (
-        explanation_df[explanation_df["shap_value"] > 0]
-        .sort_values("shap_value", ascending=False)
-        .head(top_n)[["feature", "shap_value"]]
-        .to_dict(orient="records")
-    )
-
-    negative_drivers = (
-        explanation_df[explanation_df["shap_value"] < 0]
-        .sort_values("shap_value", ascending=True)
-        .head(top_n)[["feature", "shap_value"]]
-        .to_dict(orient="records")
-    )
-
-    return {
-        "customer_id": customer_id,
-        "churn_probability": float(churn_probability),
-        "top_risk_drivers": positive_drivers,
-        "top_protective_drivers": negative_drivers,
-    }
 
 
 def save_global_importance_bar():
@@ -160,10 +161,36 @@ def explain_single_customer(customer_id):
         "abs_shap_value": abs(row_shap)
     }).sort_values("abs_shap_value", ascending=False)
 
+    explanation_df["feature"] = explanation_df["feature"].apply(clean_feature_name)
     explanation_df["customer_id"] = customer_id
     explanation_df["churn_probability"] = churn_probability
 
     return explanation_df, row_transformed, churn_probability
+
+
+def explain_single_customer_summary(customer_id: str, top_n: int = 5) -> dict:
+    explanation_df, _, churn_probability = explain_single_customer(customer_id)
+
+    positive_drivers = (
+        explanation_df[explanation_df["shap_value"] > 0]
+        .sort_values("shap_value", ascending=False)
+        .head(top_n)[["feature", "shap_value"]]
+        .to_dict(orient="records")
+    )
+
+    negative_drivers = (
+        explanation_df[explanation_df["shap_value"] < 0]
+        .sort_values("shap_value", ascending=True)
+        .head(top_n)[["feature", "shap_value"]]
+        .to_dict(orient="records")
+    )
+
+    return {
+        "customer_id": customer_id,
+        "churn_probability": float(churn_probability),
+        "top_risk_drivers": positive_drivers,
+        "top_protective_drivers": negative_drivers,
+    }
 
 
 def save_single_customer_explanation(customer_id):
