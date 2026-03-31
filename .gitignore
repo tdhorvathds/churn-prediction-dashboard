@@ -1,8 +1,63 @@
+# Virtual environments
 .venv/
 venv/
+
+# Python cache
 __pycache__/
 *.pyc
+*.pyo
+*.pyd
+
+# Jupyter
 .ipynb_checkpoints/
+
+# Environment variables
 .env
+
+# OS files
 .DS_Store
-.env
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Build / packaging
+build/
+dist/
+*.egg-info/
+
+# Logs
+*.log
+
+# Local databases
+*.db
+*.sqlite3
+
+# Model artifacts
+models/*.pkl
+models/*.joblib
+models/*.bin
+
+# Outputs
+outputs/predictions/*.csv
+outputs/explainability/*.png
+outputs/explainability/*.csv
+outputs/explainability/*.html
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# Coverage / testing
+.coverage
+htmlcov/
+.pytest_cache/
+
+# MyPy / Ruff / linting
+.mypy_cache/
+.ruff_cache/
+
+# Power BI autosave files
+*.pbix.autosave
