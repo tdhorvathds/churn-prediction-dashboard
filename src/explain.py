@@ -231,6 +231,69 @@ def save_single_customer_explanation(customer_id):
     print(f"Churn probability: {churn_probability:.4f}")
 
 
+def explain_customer_payload(customer_data: dict, top_n: int = 5) -> dict:
+    preprocessor, model = get_preprocessor_and_model()
+
+    input_df = pd.DataFrame([customer_data])
+    X_raw = input_df[FEATURE_COLS].copy()
+
+    X_transformed = preprocessor.transform(X_raw)
+    feature_names = preprocessor.get_feature_names_out()
+
+    if sparse.issparse(X_transformed):
+        X_transformed_df = pd.DataFrame.sparse.from_spmatrix(
+            X_transformed,
+            columns=feature_names
+        )
+    else:
+        X_transformed_df = pd.DataFrame(
+            X_transformed,
+            columns=feature_names
+        )
+
+    explainer = shap.TreeExplainer(model)
+    shap_values = explainer.shap_values(X_transformed_df)
+
+    if isinstance(shap_values, list):
+        shap_row = shap_values[1][0]
+    else:
+        shap_row = shap_values[0]
+
+    prediction_pipeline = load_pipeline()
+    churn_probability = float(
+        prediction_pipeline.predict_proba(X_raw)[0, 1]
+    )
+
+    explanation_df = pd.DataFrame({
+        "feature": X_transformed_df.columns,
+        "shap_value": shap_row,
+    })
+
+    explanation_df["abs_shap_value"] = explanation_df["shap_value"].abs()
+    explanation_df["feature"] = explanation_df["feature"].apply(clean_feature_name)
+
+    positive_drivers = (
+        explanation_df[explanation_df["shap_value"] > 0]
+        .sort_values("shap_value", ascending=False)
+        .head(top_n)[["feature", "shap_value"]]
+        .to_dict(orient="records")
+    )
+
+    negative_drivers = (
+        explanation_df[explanation_df["shap_value"] < 0]
+        .sort_values("shap_value", ascending=True)
+        .head(top_n)[["feature", "shap_value"]]
+        .to_dict(orient="records")
+    )
+
+    return {
+        "customer_id": customer_data.get("customer_id"),
+        "churn_probability": churn_probability,
+        "top_risk_drivers": positive_drivers,
+        "top_protective_drivers": negative_drivers,
+    }
+
+
 def run_explainability_pipeline(sample_customer_id=None):
     save_global_importance_bar()
     save_global_beeswarm()
