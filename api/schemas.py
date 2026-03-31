@@ -25,3 +25,15 @@ class PredictionResponse(BaseModel):
     risk_segment: str
     estimated_revenue_at_risk: float
     model_name: str
+
+
+class FeatureImpact(BaseModel):
+    feature: str
+    shap_value: float
+
+
+class ExplanationResponse(BaseModel):
+    customer_id: str
+    churn_probability: float
+    top_risk_drivers: list[FeatureImpact]
+    top_protective_drivers: list[FeatureImpact]

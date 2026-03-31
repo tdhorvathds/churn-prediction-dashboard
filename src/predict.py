@@ -1,7 +1,7 @@
 import pandas as pd
 
-from src.config import MODEL_DIR, PREDICTIONS_DIR
-from src.data_loader import load_model_features, get_engine
+from src.config import PREDICTIONS_DIR
+from src.data_loader import load_model_features, get_engine, load_customer_by_id
 from src.preprocessing import FEATURE_COLS
 from src.utils import load_pipeline
 
@@ -61,6 +61,15 @@ def predict_single(customer_data: dict) -> dict:
     }
 
     return result
+
+def predict_single_by_id(customer_id: str) -> dict:
+    df = load_customer_by_id(customer_id)
+
+    if df.empty:
+        raise ValueError(f"Customer ID {customer_id} not found.")
+
+    row = df.iloc[0].to_dict()
+    return predict_single(row)
 
 
 def save_predictions_to_sql(predictions: pd.DataFrame, table_name: str = "predictions") -> None:

@@ -17,3 +17,15 @@ def load_model_features() -> pd.DataFrame:
 
     df = pd.read_sql(query, engine)
     return df
+
+def load_customer_by_id(customer_id: str) -> pd.DataFrame:
+    engine = get_engine()
+
+    query = """
+    SELECT *
+    FROM model_features
+    WHERE customer_id = %(customer_id)s
+    """
+
+    df = pd.read_sql(query, engine, params={"customer_id": customer_id})
+    return df

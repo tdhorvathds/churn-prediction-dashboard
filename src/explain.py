@@ -66,6 +66,31 @@ def get_shap_values():
     return shap_values, X_transformed_df, X_raw
 
 
+def explain_single_customer_summary(customer_id: str, top_n: int = 5) -> dict:
+    explanation_df, _, churn_probability = explain_single_customer(customer_id)
+
+    positive_drivers = (
+        explanation_df[explanation_df["shap_value"] > 0]
+        .sort_values("shap_value", ascending=False)
+        .head(top_n)[["feature", "shap_value"]]
+        .to_dict(orient="records")
+    )
+
+    negative_drivers = (
+        explanation_df[explanation_df["shap_value"] < 0]
+        .sort_values("shap_value", ascending=True)
+        .head(top_n)[["feature", "shap_value"]]
+        .to_dict(orient="records")
+    )
+
+    return {
+        "customer_id": customer_id,
+        "churn_probability": float(churn_probability),
+        "top_risk_drivers": positive_drivers,
+        "top_protective_drivers": negative_drivers,
+    }
+
+
 def save_global_importance_bar():
     EXPLAIN_DIR.mkdir(parents=True, exist_ok=True)
 
