@@ -59,3 +59,4 @@ class ExplanationResponse(BaseModel):
     churn_probability: float = Field(..., description="Predicted probability of churn")
     top_risk_drivers: list[FeatureImpact] = Field(..., description="Top features increasing churn risk")
     top_protective_drivers: list[FeatureImpact] = Field(..., description="Top features decreasing churn risk")
+    recommended_actions: list[str] = Field(..., description="Recommended retention actions")

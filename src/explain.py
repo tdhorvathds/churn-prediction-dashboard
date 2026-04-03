@@ -7,6 +7,8 @@ from src.config import EXPLAIN_DIR
 from src.data_loader import load_model_features
 from src.preprocessing import FEATURE_COLS
 from src.utils import load_pipeline
+from src.predict import risk_segment
+from src.recommend import recommend_actions
 
 def load_explain_data() -> pd.DataFrame:
     df = load_model_features()
@@ -185,11 +187,19 @@ def explain_single_customer_summary(customer_id: str, top_n: int = 5) -> dict:
         .to_dict(orient="records")
     )
 
+    recommendations = recommend_actions(
+        churn_probability=churn_probability,
+        risk_segment=risk_segment(churn_probability),
+        top_risk_drivers=positive_drivers,
+        customer_data=customer_id
+    )
+
     return {
         "customer_id": customer_id,
         "churn_probability": float(churn_probability),
         "top_risk_drivers": positive_drivers,
         "top_protective_drivers": negative_drivers,
+        "recommended_actions": recommendations
     }
 
 
@@ -286,11 +296,19 @@ def explain_customer_payload(customer_data: dict, top_n: int = 5) -> dict:
         .to_dict(orient="records")
     )
 
+    recommendations = recommend_actions(
+        churn_probability=churn_probability,
+        risk_segment=risk_segment(churn_probability),
+        top_risk_drivers=positive_drivers,
+        customer_data=customer_data
+    )
+
     return {
         "customer_id": customer_data.get("customer_id"),
         "churn_probability": churn_probability,
         "top_risk_drivers": positive_drivers,
         "top_protective_drivers": negative_drivers,
+        "recommended actions": recommendations
     }
 
 
