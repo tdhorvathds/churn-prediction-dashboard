@@ -1,11 +1,10 @@
 import pandas as pd
 
-from src.config import PREDICTIONS_DIR
+from src.config import PREDICTIONS_DIR, TIMESTAMP
 from src.data_loader import load_model_features, get_engine, load_customer_by_id
 from src.preprocessing import FEATURE_COLS
 from src.utils import load_pipeline
 
-TIMESTAMP = pd.Timestamp.now().strftime("%Y%m%d_%H%M%S")
 
 def risk_segment(probability: float) -> str:
     if probability > 0.7:

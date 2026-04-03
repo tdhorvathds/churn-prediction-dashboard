@@ -1,0 +1,8 @@
+parameter,value
+model__subsample,0.8
+model__n_estimators,500.0
+model__min_child_weight,5.0
+model__max_depth,4.0
+model__learning_rate,0.01
+model__gamma,0.3
+model__colsample_bytree,1.0

@@ -14,8 +14,8 @@ NUM_COLS = [
     "total_charges",
     "has_internet",
     "num_services",
-    "churn_score",
-    "cltv"
+    # "churn_score",
+    # "cltv"
 ]
 
 CAT_COLS = [
