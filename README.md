@@ -49,6 +49,9 @@ This project follows a complete end-to-end data science workflow:
 * Revenue at risk estimation
 * Risk segmentation (High / Medium / Low)
 * SHAP explainability for global and individual predictions
+* Rule-based retention recommendation engine
+* Hyperparameter tuning with `RandomizedSearchCV`
+* Data leakage prevention through careful feature selection
 * MySQL integration for structured storage
 * FastAPI endpoints for real-time scoring
 * Interactive Power BI dashboard
@@ -87,9 +90,9 @@ This project follows a complete end-to-end data science workflow:
 
 ---
 
-## Explainability
+## Explainability & Recommendations
 
-The project includes SHAP explainability to make model predictions more transparent.
+The project includes SHAP explainability to make model predictions more transparent and actionable.
 
 ### Global Explainability
 
@@ -97,17 +100,31 @@ SHAP beeswarm plots highlight the features with the strongest impact on churn ac
 
 Examples:
 
-* High churn score increases churn risk
 * Long customer tenure reduces churn risk
 * Month-to-month contracts increase churn probability
 * Two-year contracts reduce churn probability
 * Electronic check payment methods are associated with higher churn
+* High monthly charges can increase churn risk
 
 ### Individual Explainability
 
 For a single customer, SHAP waterfall plots show exactly which factors increase or reduce churn risk.
 
-This makes the model more interpretable for business users and retention teams.
+This makes the model more interpretable for business users, customer success teams, and retention specialists.
+
+### Retention Recommendation Engine
+
+The API also generates customer-level retention recommendations based on churn risk, customer profile, and top SHAP drivers.
+
+Example recommendations include:
+
+* Offer a discount for switching to a longer-term contract
+* Provide a free technical support trial
+* Recommend bundled services to increase stickiness
+* Review pricing or loyalty discount opportunities
+* Prioritize high-risk customers for retention outreach
+
+This turns the project from a prediction-only solution into a decision-support system for customer retention.
 
 ---
 
@@ -133,6 +150,43 @@ This makes the model more interpretable for business users and retention teams.
 * MySQL
 * Power BI
 * Jupyter Notebook
+
+---
+
+## Model Tuning & Feature Selection
+
+The churn model uses hyperparameter tuning with `RandomizedSearchCV` to improve predictive performance.
+
+Tuned parameters include:
+
+* Number of estimators
+* Maximum tree depth
+* Learning rate
+* Subsample ratio
+* Column sample ratio
+* Minimum child weight
+* Gamma
+
+Model selection is based on cross-validated ROC-AUC score.
+
+To make the model more realistic and production-ready, leakage-prone variables were excluded from training.
+
+Excluded features include:
+
+* churn_score
+* cltv
+* Any variables derived from future customer behavior
+
+Only features that would realistically be known before churn occurs are used, such as:
+
+* Contract type
+* Payment method
+* Monthly charges
+* Tenure
+* Service usage
+* Demographics
+
+This helps ensure that the model generalizes better to real-world business scenarios.
 
 ---
 
@@ -300,7 +354,7 @@ dashboard/churn_dashboard.pbix
 
 ## Business Value
 
-This project demonstrates the ability to deliver an end-to-end machine learning solution that combines data engineering, predictive modeling, explainability, API development, and business intelligence.
+This project demonstrates the ability to deliver an end-to-end machine learning solution that combines data engineering, predictive modeling, explainability, recommendation systems, API development, and business intelligence.
 
 It is particularly relevant for freelance and consulting work involving:
 
@@ -309,6 +363,7 @@ It is particularly relevant for freelance and consulting work involving:
 * Predictive analytics for CRM and customer success teams
 * Dashboard development for business stakeholders
 * Explainable AI solutions using SHAP
+* Retention recommendation systems
 * FastAPI deployment for real-time scoring
 * SQL and Python-based data pipelines
 * Machine learning model integration into business workflows
@@ -321,6 +376,7 @@ This type of solution can help companies:
 * Improve customer lifetime value
 * Support marketing, sales, and customer success teams with actionable insights
 * Operationalize machine learning through APIs and dashboards
+* Generate personalized retention recommendations for at-risk customers
 
 ---
 
@@ -330,6 +386,8 @@ This type of solution can help companies:
 * Batch prediction endpoint
 * Cloud deployment
 * Frontend web application
+* Real-time customer success dashboard connected to the API
+* Scenario simulation for retention actions
 * Monitoring and logging
 * Model retraining pipeline
 * A/B testing for retention strategies
