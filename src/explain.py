@@ -56,7 +56,8 @@ def clean_feature_name(feature_name: str) -> str:
             "gender",
             "city",
             "contract_type",
-            "payment_method"
+            "payment_method",
+            "internet_service"
         ]
 
         for prefix in categorical_prefixes:
@@ -69,6 +70,54 @@ def clean_feature_name(feature_name: str) -> str:
         return cleaned
 
     return feature_name
+
+
+def aggregate_shap_features(explanation_df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Group one-hot encoded SHAP features into logical feature families
+    to make explanations easier to interpret.
+    """
+
+    grouped_rows = []
+
+    for _, row in explanation_df.iterrows():
+        feature = row["feature"]
+        shap_value = row["shap_value"]
+
+        if feature.startswith("city = "):
+            grouped_feature = "city"
+
+        elif feature.startswith("contract_type = "):
+            grouped_feature = "contract_type"
+
+        elif feature.startswith("payment_method = "):
+            grouped_feature = "payment_method"
+
+        elif feature.startswith("internet_service = "):
+            grouped_feature = "internet_service"
+
+        elif feature.startswith("gender = "):
+            grouped_feature = "gender"
+
+        else:
+            grouped_feature = feature
+
+        grouped_rows.append(
+            {
+                "feature": grouped_feature,
+                "shap_value": shap_value
+            }
+        )
+
+    grouped_df = (
+        pd.DataFrame(grouped_rows)
+        .groupby("feature", as_index=False)["shap_value"]
+        .sum()
+    )
+
+    grouped_df["abs_shap_value"] = grouped_df["shap_value"].abs()
+
+    return grouped_df.sort_values("abs_shap_value", ascending=False)
 
 
 def build_explainer(background_df: pd.DataFrame = None):
@@ -171,27 +220,36 @@ def explain_single_customer(customer_id):
 
 
 def explain_single_customer_summary(customer_id: str, top_n: int = 5) -> dict:
+    df = load_explain_data()
+    customer_row = df[df["customer_id"] == customer_id]
+
+    if customer_row.empty:
+        raise ValueError(f"Customer ID {customer_id} not found.")
+
+    customer_data = customer_row.iloc[0].to_dict()
+
     explanation_df, _, churn_probability = explain_single_customer(customer_id)
+    grouped_explanation_df = aggregate_shap_features(explanation_df)
 
     positive_drivers = (
-        explanation_df[explanation_df["shap_value"] > 0]
+        grouped_explanation_df[grouped_explanation_df["shap_value"] > 0]
         .sort_values("shap_value", ascending=False)
         .head(top_n)[["feature", "shap_value"]]
         .to_dict(orient="records")
     )
 
     negative_drivers = (
-        explanation_df[explanation_df["shap_value"] < 0]
+        grouped_explanation_df[grouped_explanation_df["shap_value"] < 0]
         .sort_values("shap_value", ascending=True)
         .head(top_n)[["feature", "shap_value"]]
         .to_dict(orient="records")
     )
 
     recommendations = recommend_actions(
-        churn_probability=churn_probability,
-        risk_segment=risk_segment(churn_probability),
+        churn_probability=float(churn_probability),
+        risk_segment=risk_segment(float(churn_probability)),
         top_risk_drivers=positive_drivers,
-        customer_data=customer_id
+        customer_data=customer_data
     )
 
     return {
@@ -282,15 +340,17 @@ def explain_customer_payload(customer_data: dict, top_n: int = 5) -> dict:
     explanation_df["abs_shap_value"] = explanation_df["shap_value"].abs()
     explanation_df["feature"] = explanation_df["feature"].apply(clean_feature_name)
 
+    grouped_explanation_df = aggregate_shap_features(explanation_df)
+
     positive_drivers = (
-        explanation_df[explanation_df["shap_value"] > 0]
+        grouped_explanation_df[grouped_explanation_df["shap_value"] > 0]
         .sort_values("shap_value", ascending=False)
         .head(top_n)[["feature", "shap_value"]]
         .to_dict(orient="records")
     )
 
     negative_drivers = (
-        explanation_df[explanation_df["shap_value"] < 0]
+        grouped_explanation_df[grouped_explanation_df["shap_value"] < 0]
         .sort_values("shap_value", ascending=True)
         .head(top_n)[["feature", "shap_value"]]
         .to_dict(orient="records")
@@ -308,7 +368,7 @@ def explain_customer_payload(customer_data: dict, top_n: int = 5) -> dict:
         "churn_probability": churn_probability,
         "top_risk_drivers": positive_drivers,
         "top_protective_drivers": negative_drivers,
-        "recommended actions": recommendations
+        "recommended_actions": recommendations
     }
 
 
