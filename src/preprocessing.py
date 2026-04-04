@@ -12,17 +12,22 @@ NUM_COLS = [
     "tenure_months",
     "monthly_charges",
     "total_charges",
-    "has_internet",
-    "num_services",
-    # "churn_score",
-    # "cltv"
+    "phone_service",
+    "multiple_lines",
+    "online_security",
+    "online_backup",
+    "device_protection",
+    "tech_support",
+    "streaming_tv",
+    "streaming_movies",
 ]
 
 CAT_COLS = [
     "gender",
     "city",
     "contract_type",
-    "payment_method"
+    "payment_method",
+    "internet_service"
 ]
 
 FEATURE_COLS = NUM_COLS + CAT_COLS
