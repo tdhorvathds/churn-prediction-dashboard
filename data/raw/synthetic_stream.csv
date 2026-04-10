@@ -1,0 +1,30 @@
+timestamp,customer_id,senior_citizen,partner,dependents,tenure_months,monthly_charges,total_charges,phone_service,multiple_lines,online_security,online_backup,device_protection,tech_support,streaming_tv,streaming_movies,gender,city,contract_type,payment_method,internet_service
+2026-04-10T15:51:59.885542,CUST_000001,0,1,0,6,18.0,102.9,0,0,0,0,0,0,0,0,Male,Houston,Month-to-month,Electronic check,No
+2026-04-10T15:52:29.897814,CUST_000002,0,1,0,23,126.68,2622.46,1,1,1,0,0,1,1,1,Male,Houston,Month-to-month,Bank transfer (automatic),Fiber optic
+2026-04-10T15:52:59.903138,CUST_000003,1,0,0,40,104.21,4521.72,1,1,0,0,1,0,1,1,Male,Houston,One year,Bank transfer (automatic),DSL
+2026-04-10T15:53:29.906435,CUST_000004,0,0,1,13,99.64,1265.38,1,0,0,1,0,1,1,0,Female,Phoenix,One year,Credit card (automatic),Fiber optic
+2026-04-10T15:53:59.920104,CUST_000005,0,1,0,55,103.26,6138.49,1,0,0,0,1,0,0,0,Male,Los Angeles,Two year,Credit card (automatic),Fiber optic
+2026-04-10T15:54:29.924234,CUST_000006,0,1,0,17,95.38,1590.33,1,1,1,0,0,0,1,1,Female,Dallas,Month-to-month,Credit card (automatic),DSL
+2026-04-10T15:54:59.929074,CUST_000007,0,1,0,10,51.2,535.5,1,1,0,0,0,0,0,0,Female,San Francisco,Month-to-month,Electronic check,No
+2026-04-10T15:55:29.933129,CUST_000008,0,1,0,14,105.33,1344.19,1,1,0,1,0,1,0,0,Female,San Francisco,Month-to-month,Electronic check,Fiber optic
+2026-04-10T15:55:59.936407,CUST_000009,0,1,0,3,110.52,349.49,1,0,0,1,1,0,1,1,Female,Chicago,Month-to-month,Bank transfer (automatic),Fiber optic
+2026-04-10T15:56:29.942985,CUST_000010,0,0,1,56,114.85,6899.65,1,1,0,0,0,0,1,1,Female,New York,Two year,Electronic check,Fiber optic
+2026-04-10T15:56:59.946957,CUST_000011,0,0,0,7,109.8,745.15,1,0,0,0,0,1,1,1,Male,Dallas,Month-to-month,Electronic check,Fiber optic
+2026-04-10T15:57:29.950822,CUST_000012,1,0,1,26,106.72,2541.91,1,0,1,1,0,0,1,1,Male,Los Angeles,One year,Bank transfer (automatic),DSL
+2026-04-10T15:57:59.954553,CUST_000013,0,1,1,17,98.57,1782.04,1,0,1,0,0,0,0,1,Male,Dallas,Month-to-month,Mailed check,Fiber optic
+2026-04-10T15:58:29.958710,CUST_000014,0,1,1,40,78.62,3180.82,1,0,0,0,0,0,1,0,Male,Los Angeles,One year,Bank transfer (automatic),DSL
+2026-04-10T15:58:59.964020,CUST_000015,0,0,0,43,120.28,5447.49,1,1,0,0,1,1,1,0,Female,Phoenix,One year,Credit card (automatic),Fiber optic
+2026-04-10T15:59:29.968291,CUST_000016,0,1,0,39,43.37,1693.04,1,1,0,0,0,0,0,0,Female,San Francisco,One year,Bank transfer (automatic),No
+2026-04-10T15:59:59.971435,CUST_000017,0,0,0,69,115.05,7592.63,1,1,0,0,1,0,1,0,Male,San Diego,Two year,Bank transfer (automatic),Fiber optic
+2026-04-10T16:00:29.974497,CUST_000018,0,0,0,21,93.63,2098.27,1,1,0,1,0,1,0,0,Male,Los Angeles,One year,Credit card (automatic),DSL
+2026-04-10T16:00:59.978743,CUST_000019,0,1,0,23,47.52,991.69,1,0,0,0,0,0,0,0,Male,Los Angeles,Month-to-month,Electronic check,No
+2026-04-10T16:01:29.984399,CUST_000020,0,1,0,12,134.41,1521.28,1,0,1,0,1,1,1,1,Female,Chicago,Month-to-month,Mailed check,Fiber optic
+2026-04-10T16:01:59.989435,CUST_000021,0,1,0,35,103.16,3356.77,1,0,0,0,1,0,1,0,Female,New York,Two year,Bank transfer (automatic),Fiber optic
+2026-04-10T16:02:29.994238,CUST_000022,0,0,0,40,76.51,3210.25,0,0,0,1,1,1,1,1,Female,Los Angeles,Two year,Electronic check,DSL
+2026-04-10T16:02:59.998240,CUST_000023,0,0,1,15,109.1,1707.44,1,1,1,0,0,0,1,0,Male,Chicago,One year,Mailed check,Fiber optic
+2026-04-10T16:03:30.001239,CUST_000024,0,0,1,5,105.04,543.46,1,0,0,0,1,0,1,0,Male,Dallas,Month-to-month,Mailed check,Fiber optic
+2026-04-10T16:04:00.004659,CUST_000025,0,1,1,10,114.76,1208.84,1,1,1,1,1,1,1,1,Male,Dallas,Month-to-month,Electronic check,Fiber optic
+2026-04-10T16:04:30.008692,CUST_000026,1,1,1,16,95.6,1569.73,1,1,1,0,0,0,0,0,Female,Houston,Month-to-month,Mailed check,Fiber optic
+2026-04-10T16:05:00.012444,CUST_000027,1,1,1,0,98.78,0.0,1,0,1,1,0,1,0,1,Female,Phoenix,Month-to-month,Bank transfer (automatic),DSL
+2026-04-10T16:05:30.019716,CUST_000028,0,0,0,45,90.31,3857.19,1,1,0,0,1,0,1,1,Male,New York,Two year,Credit card (automatic),DSL
+2026-04-10T16:06:00.022803,CUST_000029,0,1,1,26,120.58,3384.95,1,1,1,1,0,1,1,1,Female,Dallas,One year,Credit card (automatic),DSL
