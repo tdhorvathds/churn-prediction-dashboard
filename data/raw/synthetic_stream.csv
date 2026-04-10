@@ -28,3 +28,9 @@ timestamp,customer_id,senior_citizen,partner,dependents,tenure_months,monthly_ch
 2026-04-10T16:05:00.012444,CUST_000027,1,1,1,0,98.78,0.0,1,0,1,1,0,1,0,1,Female,Phoenix,Month-to-month,Bank transfer (automatic),DSL
 2026-04-10T16:05:30.019716,CUST_000028,0,0,0,45,90.31,3857.19,1,1,0,0,1,0,1,1,Male,New York,Two year,Credit card (automatic),DSL
 2026-04-10T16:06:00.022803,CUST_000029,0,1,1,26,120.58,3384.95,1,1,1,1,0,1,1,1,Female,Dallas,One year,Credit card (automatic),DSL
+2026-04-10T18:04:33.017318,CUST_000030,0,1,1,42,121.1,4890.36,1,1,1,1,1,1,1,0,Male,Dallas,Two year,Mailed check,Fiber optic
+2026-04-10T18:11:55.558898,CUST_000031,0,0,1,38,43.39,1711.99,1,0,0,0,0,0,0,0,Female,New York,One year,Credit card (automatic),No
+2026-04-10T18:12:55.601699,CUST_000032,0,0,0,44,95.49,4464.59,1,0,1,0,0,0,0,0,Male,San Diego,Two year,Credit card (automatic),Fiber optic
+2026-04-10T18:13:55.608012,CUST_000033,0,0,0,2,96.59,192.8,1,1,0,1,0,0,1,0,Male,Miami,Month-to-month,Mailed check,DSL
+2026-04-10T18:14:55.610113,CUST_000034,0,0,0,21,84.78,1688.61,0,0,1,1,1,0,1,0,Male,San Diego,Month-to-month,Electronic check,Fiber optic
+2026-04-10T18:15:55.615331,CUST_000035,1,1,1,24,95.24,2331.29,1,1,1,1,1,0,0,1,Female,Houston,One year,Bank transfer (automatic),DSL

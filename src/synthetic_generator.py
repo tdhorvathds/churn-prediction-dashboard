@@ -1,5 +1,7 @@
 import random
+import pandas as pd
 from datetime import datetime
+from pathlib import Path
 
 from src.schema import (
     CITIES,
@@ -9,8 +11,27 @@ from src.schema import (
     PAYMENT_METHODS,
 )
 
+RAW_STREAM_PATH = Path("data/raw/synthetic_stream.csv")
 
-CUSTOMER_COUNTER = 1
+def get_next_customer_counter():
+    if not RAW_STREAM_PATH.exists():
+        return 1
+
+    try:
+        df = pd.read_csv(RAW_STREAM_PATH)
+
+        if df.empty or "customer_id" not in df.columns:
+            return 1
+
+        last_customer_id = df.iloc[-1]["customer_id"]
+        last_counter = int(str(last_customer_id).replace("CUST_", ""))
+        return last_counter + 1
+
+    except Exception:
+        return 1
+
+
+CUSTOMER_COUNTER = get_next_customer_counter()
 
 
 def weighted_choice(options, weights):

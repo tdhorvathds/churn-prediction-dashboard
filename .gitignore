@@ -45,6 +45,9 @@ outputs/explainability/*.png
 outputs/explainability/*.csv
 outputs/explainability/*.html
 
+# Synthetic data
+data/raw/*.csv
+
 # Temporary files
 tmp/
 temp/

@@ -5,7 +5,7 @@ from src.storage import save_raw_record
 
 
 
-def run_stream(interval_seconds: int = 30):
+def run_stream(interval_seconds: int = 60):
     print(f"Starting synthetic churn stream with {interval_seconds}s interval...")
 
     while True:
@@ -23,4 +23,4 @@ def run_stream(interval_seconds: int = 30):
 
 
 if __name__ == "__main__":
-    run_stream(interval_seconds=30)
+    run_stream(interval_seconds=60)
