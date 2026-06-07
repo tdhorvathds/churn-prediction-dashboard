@@ -4,14 +4,11 @@ import signal
 import sys
 import threading
 import time
-from pathlib import Path
 
 from src.synthetic_generator import generate_customer_record
 from src.storage import save_raw_record
+from src.config import LOG_DIR
 
-
-LOG_DIR = Path("outputs/logs")
-LOG_DIR.mkdir(parents=True, exist_ok=True)
 LOG_FILE = LOG_DIR / "background_producer.log"
 
 

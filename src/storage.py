@@ -1,8 +1,7 @@
 from pathlib import Path
 import pandas as pd
 
-RAW_STREAM_PATH = Path("data/raw/synthetic_stream.csv")
-
+from src.config import RAW_STREAM_PATH
 
 
 def save_raw_record(record: dict):

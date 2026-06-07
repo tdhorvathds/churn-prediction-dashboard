@@ -11,7 +11,8 @@ from src.schema import (
     PAYMENT_METHODS,
 )
 
-RAW_STREAM_PATH = Path("data/raw/synthetic_stream.csv")
+from src.config import RAW_STREAM_PATH
+
 
 def get_next_customer_counter():
     if not RAW_STREAM_PATH.exists():

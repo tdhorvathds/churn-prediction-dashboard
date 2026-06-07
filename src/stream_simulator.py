@@ -4,7 +4,6 @@ from src.synthetic_generator import generate_customer_record
 from src.storage import save_raw_record
 
 
-
 def run_stream(interval_seconds: int = 60):
     print(f"Starting synthetic churn stream with {interval_seconds}s interval...")
 
